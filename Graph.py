@@ -1,7 +1,8 @@
 class Graph(object):
 
     def __init__(self, graph_dict=None):
-        """ initializes a graph object 
+        """ 
+        initializes a graph object 
             If no dictionary or None is given, 
             an empty dictionary will be used
         """
@@ -11,6 +12,7 @@ class Graph(object):
 
     def graph_as_dict(self):
         return self.__graph_dict
+        
     def vertices(self):
         """ returns the vertices of a graph """
         return list(self.__graph_dict.keys())
