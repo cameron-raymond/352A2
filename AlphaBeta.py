@@ -23,10 +23,8 @@ def createTree(nodes,edges):
     outTree.add_node(node)
   for edge in edges:
     outTree.add_edge(edge)
-    print(edge)
-  root = outTree.get_root()
-  for child in root.children:
-    print(child)
+  print(outTree)
+ 
   
 def formatLine(line):
   firstBracket, secondBracket = line.find("{"),line.find("}")

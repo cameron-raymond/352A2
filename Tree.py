@@ -42,33 +42,42 @@ class Tree(object):
             between two nodes.
             Both nodes must already be in the tree!!
         """
-        edge = set(edge)
         (parent, child) = tuple(edge)
         if parent in self.__tree_dict and child in self.__tree_dict:
             childNode =  self.__tree_dict[child]
             self.__tree_dict[parent].add_child(childNode)
+            # lstr = "Children for "+str(parent)+": "
+            # for child in self.__tree_dict[parent].children:
+            #     lstr+=str(child.data)+"   "
+            # print(lstr)
+                
         else:
            raise ValueError('Nodes must already be in the tree lookup table before you can add an edge between them.')
-    def inorderTraversal(self,root):
-        res = ""
+    
+    
+    def __str__(self):
+        """In BFS the Node Values at each level of the Tree are traversed before going to next level"""
+        root = self.__root
+        visited = []
         if root:
-            for child in root.chilren:
-                res += self.inorderTraversal(child) 
-            res+=(root.data)
-        return res
+            visited.append(root)
+        current = root
+        total=""
+        while current:
+            levelString = str(current.data)+": "
+            if current.children:
+                for child in current.children:
+                    if not child.isLeaf:
+                        visited.append(child)
+                    levelString+= str(child.data)+" "
+            total+=levelString+"\n"
+            visited.pop(0)
+            if not visited:
+                break
+            current = visited[0]
+        return total
 
 
-
-
-#     def __str__(self):
-#         res = "nodes
-# : "
-#         for k in self.__tree_list:
-#             res += str(k) + " "
-#         res += "\nedges: "
-#         for edge in self.__generate_edges():
-#             res += str(edge) + " "
-#         return res
 
 
 class Node(object):
