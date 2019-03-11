@@ -62,3 +62,5 @@ class Graph(object):
         for edge in self.__generate_edges():
             res += str(edge) + " "
         return res
+
+
