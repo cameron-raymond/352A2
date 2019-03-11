@@ -1,26 +1,26 @@
 from Graph import Graph
+import re
 
-def alpha_beta(current,alpha,beta):
-    if current.isRootNode:
-        alpha = -float("inf")
-        beta = float("inf")
-    
+def readText(filepath):
+    graphs = []
+    with open(filepath) as graphFile:
+        for line in graphFile:
+            line = line.split()
+            nodes = formatLine(line[0])
+            edges = formatLine(line[1])
+            nodes = [(node,True) if (val == 'MAX') else (node, False) for (node, val) in nodes]
+            edges = [(node,float(val)) if (val.isnumeric()) else (node, val) for (node, val) in edges]
+            createGraph(nodes,edges)
+
+def createGraph(nodes,edges):
+  print(nodes,edges)
+  
+def formatLine(line):
+  firstBracket, secondBracket = line.find("{"),line.find("}")
+  reduced = line[firstBracket:secondBracket]
+  regexPat = '\(\s?(.*?)\s?,\s?(.*?)\s?\)'
+  toList = re.findall(regexPat, reduced)
+  return toList
 
 if __name__ == "__main__":
-
-    graph = { "a" : {"d":1},
-          "b" : {"c":3},
-          "c" : {"b":3, "d":10, "e":3},
-          "d" : {"a":1, "c":10},
-          "e" : {"c":3},
-          "f" : {}
-        }
-    
-
-    print(buildGraph())
-    # print("Vertices of graph:")
-    # print(graph.vertices())
-
-    # print('Adding an edge {"x","y"} with new vertices:')
-    # graph.add_edge({"x","y"})
-    # print(dijkstras(graph,"c","f"))
+  readText('alphaBetaInput.txt')
