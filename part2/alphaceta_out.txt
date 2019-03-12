@@ -1,0 +1,2 @@
+Graph: 1, Score: B, Leaf nodes examined: 6
+Graph: 2, Score: B, Leaf nodes examined: 6

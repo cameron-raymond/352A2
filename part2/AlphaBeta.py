@@ -17,6 +17,7 @@ class AlphaBeta:
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
     numLeavesExamined = 0
+    score = 0
 
     def __init__(self, game_tree):
         self.game_tree = game_tree  # GameTree
@@ -39,6 +40,7 @@ class AlphaBeta:
                 best_state = state
         print("AlphaBeta:  Utility Value of Root Node: = " + str(best_val))
         print("AlphaBeta:  Best State is: " + best_state.data)
+        self.score = best_state.data
         print("{} leaf nodes examined".format(self.numLeavesExamined))
         return best_state
 
@@ -126,7 +128,14 @@ def format_line(line):
 
 if __name__ == "__main__":
     trees = read_text('alphaBetaInput.txt')
-    for tree in trees:
+    outfile = 'alphaceta_out.txt'
+
+    with open(outfile, 'w') as f:  # clear text file
+        pass
+    for i, tree in enumerate(trees):
         test = AlphaBeta(tree)
         test.alpha_beta_search()
         # print(str(tree))
+        with open(outfile, 'a') as f:
+            f.write("Graph: {}, Score: {}, Leaf nodes examined: {}\n".format(
+                i+1, test.score, test.numLeavesExamined))
