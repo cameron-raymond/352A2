@@ -1,4 +1,4 @@
-from Tree import Tree,Node
+from Tree import Tree, Node
 import re
 
 # def alpha_beta(root,alpha=-float('inf'),beta=float('inf')):
@@ -10,8 +10,9 @@ import re
 #     for child in children:
 #       alpha = max(alpha,alpha_beta(child, alpha, beta))
 #       if alpha > beta:
-#         bestValue = 
+#         bestValue =
 #     return alpha
+
 
 class AlphaBeta:
     # print utility value of root node (assuming it is max)
@@ -23,7 +24,7 @@ class AlphaBeta:
 
     def alpha_beta_search(self, node=None):
         if not node:
-          node=self.root
+            node = self.root
         infinity = float('inf')
         best_val = -infinity
         beta = infinity
@@ -35,12 +36,12 @@ class AlphaBeta:
             if value > best_val:
                 best_val = value
                 best_state = state
-        print( "AlphaBeta:  Utility Value of Root Node: = " + str(best_val))
-        print( "AlphaBeta:  Best State is: " + best_state.data)
+        print("AlphaBeta:  Utility Value of Root Node: = " + str(best_val))
+        print("AlphaBeta:  Best State is: " + best_state.data)
         return best_state
 
     def max_value(self, node, alpha, beta):
-        print( "AlphaBeta-->MAX: Visited Node :: " + node.data)
+        print("AlphaBeta-->MAX: Visited Node :: " + node.data)
         if self.isTerminal(node):
             return self.getUtility(node)
         infinity = float('inf')
@@ -55,7 +56,7 @@ class AlphaBeta:
         return value
 
     def min_value(self, node, alpha, beta):
-        print( "AlphaBeta-->MIN: Visited Node :: " + str(node.data))
+        print("AlphaBeta-->MIN: Visited Node :: " + str(node.data))
         if self.isTerminal(node):
             return self.getUtility(node)
         infinity = float('inf')
@@ -87,7 +88,8 @@ class AlphaBeta:
     def getUtility(self, node):
         assert node is not None
         return node.data
-  
+
+
 def read_text(filepath):
     trees = []
     with open(filepath) as tree_file:
@@ -96,34 +98,37 @@ def read_text(filepath):
             nodes = format_line(line[0])
             possible_edges = format_line(line[1])
             edges = []
-            nodes = [Node(data,True) if (val == 'MAX') else Node(data, False) for (data, val) in nodes]
-            for parent,child in possible_edges:
-              if child.isnumeric(): #The leaf nodes are the only ones that are numeric and aren't in the node list already
-                child = float(child)
-                nodes.append(Node(child,None,True))
-              edges.append((parent,child))
-            trees.append(create_tree(nodes,edges))
+            nodes = [Node(data, True) if (val == 'MAX') else Node(
+                data, False) for (data, val) in nodes]
+            for parent, child in possible_edges:
+                if child.isnumeric():  # The leaf nodes are the only ones that are numeric and aren't in the node list already
+                    child = float(child)
+                    nodes.append(Node(child, None, True))
+                edges.append((parent, child))
+            trees.append(create_tree(nodes, edges))
     return trees
 
-def create_tree(nodes,edges):
-  outTree = Tree()
-  for node in nodes:
-    outTree.add_node(node)
-  for edge in edges:
-    outTree.add_edge(edge)
-  return outTree
- 
-  
+
+def create_tree(nodes, edges):
+    outTree = Tree()
+    for node in nodes:
+        outTree.add_node(node)
+    for edge in edges:
+        outTree.add_edge(edge)
+    return outTree
+
+
 def format_line(line):
-  firstBracket, secondBracket = line.find("{"),line.find("}")
-  reduced = line[firstBracket:secondBracket]
-  regexPat = '\(\s?(.*?)\s?,\s?(.*?)\s?\)'
-  toList = re.findall(regexPat, reduced)
-  return toList
+    firstBracket, secondBracket = line.find("{"), line.find("}")
+    reduced = line[firstBracket:secondBracket]
+    regexPat = '\(\s?(.*?)\s?,\s?(.*?)\s?\)'
+    toList = re.findall(regexPat, reduced)
+    return toList
+
 
 if __name__ == "__main__":
-  trees = read_text('alphaBetaInput.txt')
-  for tree in trees:
-    test = AlphaBeta(tree)
-    test.alpha_beta_search()
-    # print(str(tree))
+    trees = read_text('alphaBetaInput.txt')
+    for tree in trees:
+        test = AlphaBeta(tree)
+        test.alpha_beta_search()
+        # print(str(tree))
