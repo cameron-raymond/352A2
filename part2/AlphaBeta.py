@@ -2,8 +2,7 @@ from Tree import Tree, Node
 import re
 
 # def alpha_beta(root,alpha=-float('inf'),beta=float('inf')):
-#   if root.isLeaf:
-#     return root.data
+#   if root.isLeaf#     return root.data
 #   bestValue = alpha
 #   if root.isMax:
 #     children = root.children
@@ -17,6 +16,8 @@ import re
 class AlphaBeta:
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
+    numLeavesExamined = 0
+
     def __init__(self, game_tree):
         self.game_tree = game_tree  # GameTree
         self.root = game_tree.get_root()  # GameNode
@@ -38,11 +39,12 @@ class AlphaBeta:
                 best_state = state
         print("AlphaBeta:  Utility Value of Root Node: = " + str(best_val))
         print("AlphaBeta:  Best State is: " + best_state.data)
+        print("{} leaf nodes examined".format(self.numLeavesExamined))
         return best_state
 
     def max_value(self, node, alpha, beta):
         print("AlphaBeta-->MAX: Visited Node :: " + node.data)
-        if self.isTerminal(node):
+        if node.isLeaf:
             return self.getUtility(node)
         infinity = float('inf')
         value = -infinity
@@ -57,7 +59,8 @@ class AlphaBeta:
 
     def min_value(self, node, alpha, beta):
         print("AlphaBeta-->MIN: Visited Node :: " + str(node.data))
-        if self.isTerminal(node):
+        if node.isLeaf:
+            self.numLeavesExamined += 1
             return self.getUtility(node)
         infinity = float('inf')
         value = infinity
@@ -70,6 +73,7 @@ class AlphaBeta:
             beta = min(beta, value)
 
         return value
+
     #                     #
     #   UTILITY METHODS   #
     #                     #
@@ -78,12 +82,6 @@ class AlphaBeta:
     def getSuccessors(self, node):
         assert node is not None
         return node.children
-
-    # return true if the node has NO children (successor states)
-    # return false if the node has children (successor states)
-    def isTerminal(self, node):
-        assert node is not None
-        return len(node.children) == 0
 
     def getUtility(self, node):
         assert node is not None
