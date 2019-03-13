@@ -78,12 +78,13 @@ def readFile(filename):
     boards.append(board)
     return boards
 
-def writeOutput(grids):
+def writeOutput(grids, algorithm, filename):
     """
         Writes the solution to a text file.
     """
-    with open("pathfinding_a_out.txt",'w') as out:
+    with open(filename,'w') as out:
         for grid in grids:
+            out.write(algorithm+'\n')
             for row in grid:
                 line = ''.join(row)+"\n"
                 out.write(line)
@@ -140,9 +141,19 @@ def manhattan(a, b):
     """
     return abs(b.x-a.x) + abs(b.y-a.y)
 
-grids = readFile('pathfinding_a.txt')
-solutions = []
-for grid in grids:
-    solutions.append(AStar(grid, diagonal=True))
+def solveXY():
+    grids = readFile('pathfinding_a.txt')
+    solutions = []
+    for grid in grids:
+        solutions.append(AStar(grid, diagonal=False))
+    writeOutput(solutions, 'A*', 'pathfinding_a_out.txt')
 
-writeOutput(solutions)
+def solveDiag():
+    grids = readFile('pathfinding_b.txt')
+    solutions = []
+    for grid in grids:
+        solutions.append(AStar(grid, diagonal=True))
+    writeOutput(solutions, 'A*', 'pathfinding_b_out.txt')
+
+solveXY()
+solveDiag()
