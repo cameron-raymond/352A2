@@ -2,17 +2,28 @@ import numpy as np
 import os
 from heapq import *
 
+
 class Point:
+    """
+        Defines a point in the maze.
+        Stores the location, cost and where they came from.
+        Has methods to find neighbours.
+    """
     def __init__(self, x, y, grid, came_from=None, cost_so_far=float('inf')):
         self.x = x
         self.y = y
+        self.grid = grid
         self.came_from = came_from
         self.cost_so_far = cost_so_far
 
-    def getXYNeighbours(self, grid):
+    def getXYNeighbours(self):
+        """
+            Finds the horizontal and vertical neighbours of the point.
+        """
         neighbours = []
         x = self.x
         y = self.y
+        grid = self.grid
         if x > 0 and grid[y][x-1] != 'X':
             neighbours.append(Point(x-1, y, grid, came_from=self))
         if x < len(grid[0])-1 and grid[y][x+1] != 'X':
@@ -23,10 +34,14 @@ class Point:
             neighbours.append(Point(x, y+1, grid, came_from=self))
         return neighbours
 
-    def getDiagNeighbours(self, grid):
+    def getDiagNeighbours(self):
+        """
+            Finds the diagonal neighbours of the point.
+        """
         neighbours = []
         x = self.x
         y = self.y
+        grid = self.grid
         if x>0 and y>0 and grid[y-1][x-1] != 'X': # up-left
             neighbours.append(Point(x-1, y-1, grid, came_from=self))
         if x>0 and y<len(grid)-1 and grid[y+1][x-1] != 'X': # down-left
@@ -38,10 +53,18 @@ class Point:
         return neighbours
 
     def __lt__(self, other):
+        """
+            Used to break ties in the priority queue.
+            It doesn't matter which point comes earlier, so just return True.
+        """
         return True
 
 
 def readFile(filename):
+    """
+        Reads the grids from a text file.
+        Saves them as 2D arrays
+    """
     boards = []
     with open(filename) as f:
         file = f.readlines()
@@ -56,6 +79,9 @@ def readFile(filename):
     return boards
 
 def writeOutput(grids):
+    """
+        Writes the solution to a text file.
+    """
     with open("pathfinding_a_out.txt",'w') as out:
         for grid in grids:
             for row in grid:
@@ -64,6 +90,10 @@ def writeOutput(grids):
             out.write("\n")
 
 def AStar(grid, diagonal=False):
+    """
+        Solves the maze using the A* algorithm.
+        The diagonal tag is True if we are allowed to move diagonal.
+    """
     frontier = []
     start = findPoint('S', grid)
     start.cost_so_far = 0
@@ -89,15 +119,24 @@ def AStar(grid, diagonal=False):
     return grid
 
 def findPoint(target, grid):
+    """
+        Used to find the location of the start of goal.
+    """
     for row in range(len(grid)):
         for col in range(len(grid[0])):
             if grid[row][col] == target:
                 return Point(col, row, grid)
 
 def chebyshev(a, b):
+    """
+        The Chebyshev distance from a to b.
+    """
     return max(abs(b.x-a.x), abs(b.y-a.y))
 
 def manhattan(a, b):
+    """
+        The Manhattan distance from a to b.
+    """
     return abs(b.x-a.x) + abs(b.y-a.y)
 
 grids = readFile('pathfinding_a.txt')
