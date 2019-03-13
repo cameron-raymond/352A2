@@ -104,8 +104,6 @@ def AStar(grid, diagonal=False):
         current = heappop(frontier)[1]
         x = current.x
         y = current.y
-        if grid[y][x] == '_':
-            grid[y][x] = 'P'
         if grid[y][x] == 'G':
             break
         neighbours = current.getXYNeighbours() \
@@ -118,6 +116,10 @@ def AStar(grid, diagonal=False):
                 priority = new_cost + heuristic
                 heappush(frontier, (priority, next))
                 next.came_from = current
+    current = current.came_from
+    while current != None and current.came_from != None:
+        grid[current.y][current.x] = 'P'
+        current = current.came_from
     return grid
 
 def findPoint(target, grid):

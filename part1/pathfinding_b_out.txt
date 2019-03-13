@@ -20,3 +20,14 @@ X_XP_X_X_X
 X__G_X___X
 XXXXXXXXXX
 
+A*
+XXXXXXXXXX
+X_PP_S___X
+XPX_P__X_X
+XPX____X_X
+XPX____X_X
+XPXXXXXX_X
+X_P______X
+X__PG____X
+XXXXXXXXXX
+
