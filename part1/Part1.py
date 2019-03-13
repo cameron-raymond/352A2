@@ -107,13 +107,14 @@ def AStar(grid, diagonal=False):
             grid[y][x] = 'P'
         if grid[y][x] == 'G':
             break
-        neighbours = current.getXYNeighbours(grid) \
-            + (current.getDiagNeighbours(grid) if diagonal else [])
+        neighbours = current.getXYNeighbours() \
+            + (current.getDiagNeighbours() if diagonal else [])
         for next in neighbours: #
             new_cost = current.cost_so_far + 1
             if new_cost < next.cost_so_far:
                 next.cost_so_far = new_cost
-                priority = new_cost + manhattan(goal, next)
+                heuristic = chebyshev(goal, next) if diagonal else manhattan(goal, next)
+                priority = new_cost + heuristic
                 heappush(frontier, (priority, next))
                 next.came_from = current
     return grid
