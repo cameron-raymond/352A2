@@ -22,6 +22,38 @@ class Graph:
                 if self.grid[row][col] == target:
                     return Point(col, row)
 
+    def greedy(self, diagonal=False):
+        """
+            Solves the maze using a greedy algorithm.
+            The diagonal tag is True if we are allowed to move diagonal.
+        """
+        frontier = []
+        visited = [[False for i in range(len(self.grid[0]))] for j in range(len(self.grid))]
+        start = self.start
+        goal = self.goal
+        heappush(frontier, (0, start))
+        while not len(frontier)==0:
+            current = heappop(frontier)[1]
+            x = current.x
+            y = current.y
+            if self.grid[y][x] == 'G':
+                break
+            neighbours = self.getXYNeighbours(current) \
+                + (self.getDiagNeighbours(current) if diagonal else [])
+            for next in neighbours:
+                if not visited[next.y][next.x]:
+                    heuristic = self.chebyshev(goal, next) if diagonal else self.manhattan(goal, next)
+                    priority = heuristic
+                    heappush(frontier, (priority, next))
+                    visited[y][x] = True
+                    next.came_from = current
+        solution = self.grid
+        current = current.came_from
+        while current.came_from != None:
+            solution[current.y][current.x] = 'P'
+            current = current.came_from
+        return solution
+
     def AStar(self, diagonal=False):
         """
             Solves the maze using the A* algorithm.
@@ -40,7 +72,7 @@ class Graph:
                 break
             neighbours = self.getXYNeighbours(current) \
                 + (self.getDiagNeighbours(current) if diagonal else [])
-            for next in neighbours: #
+            for next in neighbours:
                 new_cost = current.cost_so_far + 1
                 if new_cost < next.cost_so_far:
                     next.cost_so_far = new_cost
@@ -108,11 +140,12 @@ class Point:
         Defines a point in the maze.
         Stores the location, cost and where they came from.
     """
-    def __init__(self, x, y, came_from=None, cost_so_far=float('inf')):
+    def __init__(self, x, y, came_from=None, cost_so_far=float('inf'), visited=False):
         self.x = x
         self.y = y
         self.came_from = came_from
         self.cost_so_far = cost_so_far
+        self.visited = visited
 
     def __lt__(self, other):
         """
@@ -139,35 +172,47 @@ def readFile(filename):
     boards.append(board)
     return boards
 
-def writeOutput(grids, algorithm, filename):
+def writeOutput(greedySolutions, AStarSolutions, filename):
     """
         Writes the solution to a text file.
     """
     with open(filename,'w') as out:
-        for grid in grids:
-            out.write(algorithm+'\n')
-            for row in grid:
+        for ind in range(len(greedySolutions)):
+            out.write('Greedy\n')
+            for row in greedySolutions[ind]:
+                line = ''.join(row)+"\n"
+                out.write(line)
+            out.write('A*\n')
+            for row in AStarSolutions[ind]:
                 line = ''.join(row)+"\n"
                 out.write(line)
             out.write("\n")
 
 def solveXY():
+    '''
+        Solves the graphs, allowing only vertical and horizontal movement
+    '''
     grids = readFile('pathfinding_a.txt')
-    solutions = []
+    greedySolutions = []
+    AStarSolutions = []
     for grid in grids:
         maze = Graph(grid)
-        soln = maze.AStar(diagonal=False)
-        solutions.append(soln)
-    writeOutput(solutions, 'A*', 'pathfinding_a_out.txt')
+        greedySolutions.append(maze.greedy(diagonal=False))
+        AStarSolutions.append(maze.AStar(diagonal=False))
+    writeOutput(greedySolutions, AStarSolutions, 'pathfinding_a_out.txt')
 
 def solveDiag():
+    '''
+        Solves the graphs, allowing diagonal movement as well as vertical/horizontal
+    '''
     grids = readFile('pathfinding_b.txt')
-    solutions = []
+    greedySolutions = []
+    AStarSolutions = []
     for grid in grids:
         maze = Graph(grid)
-        soln = maze.AStar(diagonal=True)
-        solutions.append(soln)
-    writeOutput(solutions, 'A*', 'pathfinding_b_out.txt')
+        greedySolutions.append(maze.greedy(diagonal=True))
+        AStarSolutions.append(maze.AStar(diagonal=True))
+    writeOutput(greedySolutions, AStarSolutions, 'pathfinding_b_out.txt')
 
 solveXY()
 solveDiag()

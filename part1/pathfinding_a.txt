@@ -17,3 +17,13 @@ X___XX_X_X
 X_X____X_X
 X__G_____X
 XXXXXXXXXX
+
+XXXXXXXXXX
+X________X
+X_X____X_X
+X_X_S__X_X
+X_X____X_X
+X_XXXXXX_X
+X________X
+X__G_____X
+XXXXXXXXXX
