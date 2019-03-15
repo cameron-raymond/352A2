@@ -22,6 +22,34 @@ class Graph:
                 if self.grid[row][col] == target:
                     return Point(col, row)
 
+    def Greedy(self, diagonal=False):
+        """
+            Solves the maze using the Greedy algorithm.
+            The diagonal tag is True if we are allowed to move diagonal.
+        """
+        frontier = []
+        start = self.start
+        goal = self.goal
+        heappush(frontier, (0, start))
+        while not len(frontier)==0:
+            current = heappop(frontier)[1]
+            x = current.x
+            y = current.y
+            if self.grid[y][x] == 'G':
+                break
+            neighbours = self.getXYNeighbours(current) \
+                + (self.getDiagNeighbours(current) if diagonal else [])
+            for next in neighbours:
+                heuristic = self.chebyshev(goal, next) if diagonal else self.manhattan(goal, next)
+                heappush(frontier, (heuristic, next))
+                next.came_from = current
+        solution = self.grid
+        current = current.came_from
+        while current.came_from != None:
+            solution[current.y][current.x] = 'P'
+            current = current.came_from
+        return solution
+
     def AStar(self, diagonal=False):
         """
             Solves the maze using the A* algorithm.
