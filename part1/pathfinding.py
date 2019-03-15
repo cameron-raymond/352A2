@@ -22,7 +22,6 @@ class Graph:
                 if self.grid[row][col] == target:
                     return Point(col, row)
 
-<<<<<<< HEAD
     def greedy(self, diagonal=False):
         """
             Solves the maze using a greedy algorithm.
@@ -30,14 +29,6 @@ class Graph:
         """
         frontier = []
         visited = [[False for i in range(len(self.grid[0]))] for j in range(len(self.grid))]
-=======
-    def Greedy(self, diagonal=False):
-        """
-            Solves the maze using the Greedy algorithm.
-            The diagonal tag is True if we are allowed to move diagonal.
-        """
-        frontier = []
->>>>>>> 51f0dea539b4c87733bbe0eedb1be85b37e278ea
         start = self.start
         goal = self.goal
         heappush(frontier, (0, start))
