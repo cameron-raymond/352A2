@@ -42,10 +42,10 @@ XXXXXXXXXX
 
 Greedy
 XXXXXXXXXX
-X____SPP_X
-X_X__PPXPX
-X_X__PPXPX
-X_X__PPXPX
+X____S_P_X
+X_X___PXPX
+X_X____XPX
+X_X____XPX
 X_XXXXXXPX
 X____P_P_X
 X___G_P__X
@@ -60,4 +60,25 @@ XPXXXXXX_X
 X_P______X
 X__PG____X
 XXXXXXXXXX
+
+Greedy
+XXXXXXXXXXX
+X_________X
+X___XSPPP_X
+X___XXXXXPX
+X_____P_XPX
+X____PXPXPX
+X___P_XPXPX
+X____GX_P_X
+XXXXXXXXXXX
+A*
+XXXXXXXXXXX
+X___P_____X
+X__PXS____X
+X_P_XXXXX_X
+X__P____X_X
+X___P_X_X_X
+X____PX_X_X
+X____GX___X
+XXXXXXXXXXX
 

@@ -27,3 +27,13 @@ X_XXXXXX_X
 X________X
 X___G____X
 XXXXXXXXXX
+
+XXXXXXXXXXX
+X_________X
+X___XS____X
+X___XXXXX_X
+X_______X_X
+X_____X_X_X
+X_____X_X_X
+X____GX___X
+XXXXXXXXXXX
