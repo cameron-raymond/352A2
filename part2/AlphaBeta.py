@@ -14,10 +14,10 @@ class AlphaBeta:
         self.root = game_tree.get_root()  # GameNode
         self.numLeavesExamined = 0
         self.score = 0
-        print("Starting Traversal of Graph {}".format(graphID))
+        print("Graph: {}".format(graphID))
         start = time.time()
         self.alpha_beta_search()
-        print('Finished - Score:{:d}, Leaf Nodes Examined: {:d}, Total Time: {:f}s\n'.format(
+        print('Score: {:d}, Leaf Nodes Examined: {:d}, Total Time: {:f}s\n'.format(
             int(self.score), int(self.numLeavesExamined), time.time()-start))
         return
 
@@ -117,8 +117,8 @@ def format_line(line):
 
 
 if __name__ == "__main__":
-    trees = read_text('part2/alphaBetaInput.txt')
-    outfile = 'part2/alphabeta_out.txt'
+    trees = read_text('alphabeta.txt')
+    outfile = 'alphabeta_out.txt'
 
     with open(outfile, 'w') as f:  # clear text file
         pass
