@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from heapq import *
+from copy import copy, deepcopy
 
 class Graph:
     """
@@ -32,6 +33,7 @@ class Graph:
         start = self.start
         goal = self.goal
         heappush(frontier, (0, start))
+        visited[start.y][start.x] = True
         while not len(frontier)==0:
             current = heappop(frontier)[1]
             x = current.x
@@ -44,9 +46,9 @@ class Graph:
                 if not visited[next.y][next.x]:
                     heuristic = self.chebyshev(goal, next) if diagonal else self.manhattan(goal, next)
                     heappush(frontier, (heuristic, next))
-                    visited[y][x] = True
                     next.came_from = current
-        solution = self.grid
+                    visited[next.y][next.x] = True
+        solution = deepcopy(self.grid)
         current = current.came_from
         while current.came_from != None:
             solution[current.y][current.x] = 'P'
@@ -79,7 +81,7 @@ class Graph:
                     priority = new_cost + heuristic
                     heappush(frontier, (priority, next))
                     next.came_from = current
-        solution = self.grid
+        solution = deepcopy(self.grid)
         current = current.came_from
         while current.came_from != None:
             solution[current.y][current.x] = 'P'
@@ -139,12 +141,11 @@ class Point:
         Defines a point in the maze.
         Stores the location, cost and where they came from.
     """
-    def __init__(self, x, y, came_from=None, cost_so_far=float('inf'), visited=False):
+    def __init__(self, x, y, came_from=None, cost_so_far=float('inf')):
         self.x = x
         self.y = y
         self.came_from = came_from
         self.cost_so_far = cost_so_far
-        self.visited = visited
 
     def __lt__(self, other):
         """
